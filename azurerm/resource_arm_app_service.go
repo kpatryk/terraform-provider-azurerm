@@ -224,7 +224,7 @@ func resourceArmAppServiceCreate(d *schema.ResourceData, meta interface{}) error
 	}
 
 	if !*available.NameAvailable {
-		return fmt.Errorf("The name %q used for the App Service needs to be globally unique and isn't available: %s", name, *available.Message)
+		fmt.Printf("The name %q used for the App Service needs to be globally unique and isn't available: %s", name, *available.Message)
 	}
 
 	location := azure.NormalizeLocation(d.Get("location").(string))

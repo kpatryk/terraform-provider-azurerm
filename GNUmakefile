@@ -7,7 +7,16 @@ TF_SCHEMA_PANIC_ON_ERROR=1
 GO111MODULE=on
 GOFLAGS=-mod=vendor
 
+# Quick fix: https://github.com/terraform-providers/terraform-provider-azurerm/issues/3003
+TERRAFORM_PLUGIN_PATH=~/.terraform.d/plugins
+TERRAFORM_PLUGIN_NAME=terraform-provider-azurerm
+VERSION=v1.24.0
+
 default: build
+
+deploy:
+	@ln -s -f $(GOBIN)/$(TERRAFORM_PLUGIN_NAME) $(TERRAFORM_PLUGIN_PATH)/$(TERRAFORM_PLUGIN_NAME)_$(VERSION)
+	@ls -l $(TERRAFORM_PLUGIN_PATH)/
 
 build: fmtcheck
 	go install
@@ -75,4 +84,4 @@ ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
 endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 
-.PHONY: build build-docker test test-docker testacc vet fmt fmtcheck errcheck test-compile website website-test
+.PHONY: build build-docker test test-docker testacc vet fmt fmtcheck errcheck test-compile website website-test deploy
