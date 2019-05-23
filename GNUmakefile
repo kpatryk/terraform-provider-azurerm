@@ -10,11 +10,11 @@ GOFLAGS=-mod=vendor
 # Quick fix: https://github.com/terraform-providers/terraform-provider-azurerm/issues/3003
 TERRAFORM_PLUGIN_PATH=~/.terraform.d/plugins
 TERRAFORM_PLUGIN_NAME=terraform-provider-azurerm
-VERSION=v1.24.0
+VERSION=v1.28.0
 
 default: build
 
-deploy:
+deploy: build
 	@ln -s -f $(GOBIN)/$(TERRAFORM_PLUGIN_NAME) $(TERRAFORM_PLUGIN_PATH)/$(TERRAFORM_PLUGIN_NAME)_$(VERSION)
 	@ls -l $(TERRAFORM_PLUGIN_PATH)/
 
